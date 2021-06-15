@@ -57,3 +57,5 @@ $route['about'] = 'welcome/about';
 $route['contact'] = 'welcome/contact';
 
 $route['admin'] = 'admin/products';
+
+$route['admin'] = 'admin/users';
