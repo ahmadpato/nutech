@@ -29,7 +29,7 @@
 					<div class="card-header">
 						<!-- <a href="<?php echo site_url('admin/users/add') ?>"><i class="fas fa-plus"></i> Add New</a> -->
 						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus"></i>
-						  Tambah Penggunan
+						  Tambah Petani
 						</button>
 						<a href="<?php echo site_url('admin/users/report') ?>"><button type="button" class="btn btn-primary"><i class="fas fa-download"></i>
 						  Cetak Laporan
