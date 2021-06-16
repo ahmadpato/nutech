@@ -61,3 +61,5 @@ $route['admin'] = 'admin/products';
 $route['admin'] = 'admin/users';
 
 $route['admin'] = 'admin/trainings';
+
+$route['admin'] = 'admin/comoditys';

@@ -27,11 +27,11 @@
 				<!-- DataTables -->
 				<div class="card mb-3">
 					<div class="card-header">
-						<!-- <a href="<?php echo site_url('admin/users/add') ?>"><i class="fas fa-plus"></i> Add New</a> -->
+						<!-- <a href="<?php echo site_url('admin/comoditys/add') ?>"><i class="fas fa-plus"></i> Add New</a> -->
 						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus"></i>
-						  Tambah Penggunan
+						  Tambah Comodity
 						</button>
-						<a href="<?php echo site_url('admin/users/report') ?>"><button type="button" class="btn btn-primary"><i class="fas fa-download"></i>
+						<a href="<?php echo site_url('admin/comoditys/report') ?>"><button type="button" class="btn btn-primary"><i class="fas fa-download"></i>
 						  Cetak Laporan
 						</button></a>
 					</div>
@@ -42,33 +42,25 @@
 								<thead>
 									<tr>
 										<th>Nama</th>
-										<th>Email</th>
-										<th>No Handphone</th>
-										<th>Alamat</th>
+										<th>Luas</th>
 										<th>Aksi</th>
 									</tr>
 								</thead>
 								<tbody>
-									<?php foreach ($users as $users): ?>
+									<?php foreach ($comoditys as $comoditys): ?>
 									<tr>
 										<td width="150">
-											<?php echo $users->fullname ?>
+											<?php echo $comoditys->jenis ?>
 										</td>
-										<td>
-											<?php echo $users->email ?>
-										</td>
-										<td>
-											<?php echo $users->phone_number ?>
-										</td>
-										<td>
-											<?php echo $users->address ?>
+										<td width="150">
+											<?php echo $comoditys->luas ?>
 										</td>
 										<td width="200">
 											<!-- <a href="" data-toggle="modal" data-target="#exampleModal"
 											 class="btn btn-success"><i class="fas fa-eye"></i> view</a> -->
-											<a href="<?php echo site_url('admin/users/edit/'.$users->id) ?>"
+											<a href="<?php echo site_url('admin/comoditys/edit/'.$comoditys->id) ?>"
 											 class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>
-											<a onclick="deleteConfirm('<?php echo site_url('admin/users/delete/'.$users->id) ?>')"
+											<a onclick="deleteConfirm('<?php echo site_url('admin/comoditys/delete/'.$comoditys->id) ?>')"
 											 href="#!" class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</a>
 										</td>
 									</tr>
@@ -97,42 +89,26 @@
 
 									<div class="card mb-3">
 										<div class="card-header">
-											<a href="<?php echo site_url('admin/users/') ?>"><i class="fas fa-arrow-left"></i> Back</a>
+											<a href="<?php echo site_url('admin/comoditys/') ?>"><i class="fas fa-arrow-left"></i> Back</a>
 										</div>
 										<div class="card-body">
-											<form action="<?php base_url('admin/users/add') ?>" method="post" enctype="multipart/form-data" >
+											<form action="<?php base_url('admin/comoditys/add') ?>" method="post" enctype="multipart/form-data" >
 												<div class="form-group">
-													<label for="fullname">Nama*</label>
-													<input class="form-control <?php echo form_error('name') ? 'is-invalid':'' ?>"
-													 type="text" name="fullname" required/>
+													<label for="jenis">Nama*</label>
+													<input class="form-control <?php echo form_error('jenis') ? 'is-invalid':'' ?>"
+													 type="text" name="jenis" required/>
 													<div class="invalid-feedback">
-														<?php echo form_error('name') ?>
+														<?php echo form_error('jenis') ?>
 													</div>
 												</div>
 
 												<div class="form-group">
-													<label for="email">Email</label>
-													<input class="form-control <?php echo form_error('email') ? 'is-invalid':'' ?>"
-													 type="mail" name="email" required/>
+													<label for="luas">Luas*</label>
+													<input class="form-control <?php echo form_error('luas') ? 'is-invalid':'' ?>"
+													 type="number" name="luas" required/>
 													<div class="invalid-feedback">
-														<?php echo form_error('email') ?>
+														<?php echo form_error('luas') ?>
 													</div>
-												</div>
-
-												<div class="form-group">
-													<label for="phone_number">No Handphone</label>
-													<input class="form-control"
-													 type="text" name="phone_number" required/>
-													<!-- <div class="invalid-feedback">
-													</div> -->
-												</div>
-
-												<div class="form-group">
-													<label for="address">Alamat</label>
-													<input class="form-control"
-													 type="text" name="address" required/>
-													<!-- <div class="invalid-feedback">
-													</div> -->
 												</div>
 
 												<input class="btn btn-primary" type="submit" name="btn" value="Save" />
@@ -180,6 +156,11 @@
 		$('#deleteModal').modal();
 	}
 	</script>
+	<script type="text/javascript">
+         $(function () {
+             $('#datetimepicker1').datetimepicker();
+         });
+     </script>
 </body>
 
 </html>

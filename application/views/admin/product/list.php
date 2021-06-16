@@ -27,10 +27,12 @@
 				<!-- DataTables -->
 				<div class="card mb-3">
 					<div class="card-header">
-						<!-- <a href="<?php echo site_url('admin/products/add') ?>"><i class="fas fa-plus"></i> Add New</a> -->
 						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus"></i>
 						  Tambah Barang
 						</button>
+						<a href="<?php echo site_url('admin/products/report') ?>"><button type="button" class="btn btn-primary"><i class="fas fa-download"></i>
+						  Cetak Laporan
+						</button></a>
 					</div>
 					<div class="card-body">
 

@@ -31,6 +31,9 @@
 						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus"></i>
 						  Tambah Training
 						</button>
+						<a href="<?php echo site_url('admin/trainings/report') ?>"><button type="button" class="btn btn-primary"><i class="fas fa-download"></i>
+						  Cetak Laporan
+						</button></a>
 					</div>
 					<div class="card-body">
 

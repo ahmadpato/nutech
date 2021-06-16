@@ -2,6 +2,11 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once('vendor/autoload.php');
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+$spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+
 class Products extends CI_Controller
 {
     public $product_id;
@@ -104,5 +109,38 @@ class Products extends CI_Controller
             $this->upload_data['file_name'] =  $this->upload->data();
             return true;
         }   
+    }
+
+    public function report(){
+
+        $this->load->model('product_model');
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Nama Barang');
+        $sheet->setCellValue('C1', 'Harga Beli');
+        $sheet->setCellValue('D1', 'Harga Jual');
+        $sheet->setCellValue('E1', 'Stok');
+        
+        $product = $this->product_model->getAll();
+        $no = 1;
+        $x = 2;
+        foreach($product as $row)
+        {
+            $sheet->setCellValue('A'.$x, $no++);
+            $sheet->setCellValue('B'.$x, $row->name);
+            $sheet->setCellValue('C'.$x, $row->harga_beli);
+            $sheet->setCellValue('D'.$x, $row->harga_jual);
+            $sheet->setCellValue('E'.$x, $row->stok);
+            $x++;
+        }
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'laporan-product';
+        
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
     }
 }

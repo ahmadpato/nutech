@@ -2,6 +2,11 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once('vendor/autoload.php');
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+$spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+
 class Users extends CI_Controller
 {
     public $user_id;
@@ -39,10 +44,6 @@ class Users extends CI_Controller
         $user = $this->user_model;
         $validation = $this->form_validation;
         $validation->set_rules($user->rules());
-
-        // $this->form_validation->set_rules('name', 'Name', 'is_unique[users.name]');
-
-        // $this->form_validation->set_rules('image', 'image', 'callback_image_upload'); 
 
         if ($validation->run()) {
             $user->save();
@@ -100,5 +101,38 @@ class Users extends CI_Controller
             $this->upload_data['file_name'] =  $this->upload->data();
             return true;
         }   
+    }
+
+    public function report(){
+
+        $this->load->model('user_model');
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Nama');
+        $sheet->setCellValue('C1', 'Email');
+        $sheet->setCellValue('D1', 'No Handphone');
+        $sheet->setCellValue('E1', 'Alamat');
+        
+        $product = $this->user_model->getAll();
+        $no = 1;
+        $x = 2;
+        foreach($product as $row)
+        {
+            $sheet->setCellValue('A'.$x, $no++);
+            $sheet->setCellValue('B'.$x, $row->fullname);
+            $sheet->setCellValue('C'.$x, $row->email);
+            $sheet->setCellValue('D'.$x, $row->phone_number);
+            $sheet->setCellValue('E'.$x, $row->address);
+            $x++;
+        }
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'laporan-users';
+        
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
     }
 }

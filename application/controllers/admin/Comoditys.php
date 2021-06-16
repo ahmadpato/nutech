@@ -7,99 +7,99 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 
-class Trainings extends CI_Controller
+class Comoditys extends CI_Controller
 {
     public $id;
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model("training_model");
+        $this->load->model("comodity_model");
         $this->load->library('form_validation');
-        $this->load->model("training_model");
-
-		// if($this->training_model->isNotLogin()) redirect(site_url('admin/login'));
+        $this->load->model("comodity_model");
     }
 
     public function index()
     {
-        $data["trainings"] = $this->training_model->getAll();
-        $training = $this->training_model;
+        $data["comoditys"] = $this->comodity_model->getAll();
+        $comodity = $this->comodity_model;
         $validation = $this->form_validation;
-        $validation->set_rules($training->rules());
+        $validation->set_rules($comodity->rules());
 
-        $this->form_validation->set_rules('name', 'name', 'is_unique[trainings.name]');
+        $this->form_validation->set_rules('jenis', 'jenis', 'is_unique[comoditys.jenis]');
 
         if ($validation->run()) {
-            $training->save();
+            $comodity->save();
             $this->session->set_flashdata('success', 'Berhasil disimpan');
-            redirect(site_url('admin/trainings'));
+            redirect(site_url('admin/comoditys'));
         } 
 
-        $this->load->view("admin/training/list", $data);
+        $this->load->view("admin/comodity/list", $data);
     }
 
     public function add()
     {
-        $training = $this->training_model;
+        $comodity = $this->comodity_model;
         $validation = $this->form_validation;
-        $validation->set_rules($training->rules());
+        $validation->set_rules($comodity->rules());
 
         if ($validation->run()) {
-            $training->save();
+            $comodity->save();
             $this->session->set_flashdata('success', 'Berhasil disimpan');
         }
 
-        $this->load->view("admin/training/new_form");
+        $this->load->view("admin/comodity/new_form");
     }
 
     public function edit($id = null)
     {
-        if (!isset($id)) redirect('admin/trainings');
+        if (!isset($id)) redirect('admin/comoditys');
        
-        $training = $this->training_model;
+        $comodity = $this->comodity_model;
         $validation = $this->form_validation;
-        $validation->set_rules($training->rules());
+        $validation->set_rules($comodity->rules());
 
         if ($validation->run()) {
-            $training->update();
+            $comodity->update();
             $this->session->set_flashdata('success', 'Berhasil disimpan');
         }
 
-        $data["trainings"] = $training->getById($id);
-        if (!$data["trainings"]) show_404();
+        $data["comoditys"] = $comodity->getById($id);
+        if (!$data["comoditys"]) show_404();
         
-        $this->load->view("admin/training/edit_form", $data);
+        $this->load->view("admin/comodity/edit_form", $data);
     }
 
     public function delete($id=null)
     {
         if (!isset($id)) show_404();
         
-        if ($this->training_model->delete($id)) {
-            redirect(site_url('admin/trainings'));
+        if ($this->comodity_model->delete($id)) {
+            redirect(site_url('admin/comoditys'));
         }
     }
 
     public function report(){
 
-        $this->load->model('training_model');
+        $this->load->model('comodity_model');
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('A1', 'No');
-        $sheet->setCellValue('B1', 'Nama Training');
+        $sheet->setCellValue('B1', 'Jenis');
+        $sheet->setCellValue('C1', 'Luas');
         
-        $product = $this->training_model->getAll();
+        $comodity = $this->comodity_model->getAll();
         $no = 1;
         $x = 2;
-        foreach($product as $row)
+        foreach($comodity as $row)
         {
             $sheet->setCellValue('A'.$x, $no++);
-            $sheet->setCellValue('B'.$x, $row->name);
+            $sheet->setCellValue('B'.$x, $row->jenis);
+            $sheet->setCellValue('C'.$x, $row->luas);
             $x++;
         }
         $writer = new Xlsx($spreadsheet);
-        $filename = 'laporan-training';
+        $filename = 'laporan-comodity';
         
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
